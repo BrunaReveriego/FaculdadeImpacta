@@ -82,7 +82,7 @@ def lista_primos(n):
 
 pass
 
-lista_primos(20)
+lista_primos(4)
 
 def conta_primos(s):
     """Função que conta a quantidade de primos em uma sequẽncia
@@ -116,28 +116,39 @@ def conta_primos(s):
             o total de ocorrências do número primo na
             sequência s.
     """
-    
-    x=3
+    x=0
     num_list = []
-    num_list.append(2)
-    while x < n:
-        verifica = False
-        y = 2
-        while y < n:
-            if x % y == 0 and y != x:
+
+    while x < len(s):
+        if s[x] == 2:
+         num_list.append(s[x])
+        else:      
+         y = 2
+         verifica = False
+         while(y < int(s[x])):
+            if int(s[x]) % y == 0 and y != int(s[x]):
                 verifica = True
+            y=y+1    
+         if(verifica == False):
+          num_list.append(s[x])
+        x=x+1      
 
-            y=y+1
-        if verifica == False:
-            num_list.append(x)
-                
-        x=x+1        
-
-    print(num_list)    
-
-
-
+    print(num_list)        
     pass
+   
+
+num_list = []
+sair = False
+
+while sair != True: 
+    num = input("Digite um número para sua lista : ") 
+    num_list.append(num)
+    
+    verifica = input("Deseja sair? S/N")
+    if verifica == 'S':
+        sair = True
+
+conta_primos(num_list)
 
 
 def eh_armstrong(n):
