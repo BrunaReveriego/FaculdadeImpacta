@@ -38,7 +38,7 @@ def eh_primo(n):
 
     pass
 
-print(eh_primo(4))
+# print(eh_primo(4))
 
 def lista_primos(n):
     """Função que retorna uma lista de primos até n
@@ -82,7 +82,7 @@ def lista_primos(n):
 
 pass
 
-lista_primos(4)
+# lista_primos(4)
 
 def conta_primos(s):
     """Função que conta a quantidade de primos em uma sequẽncia
@@ -133,22 +133,42 @@ def conta_primos(s):
           num_list.append(s[x])
         x=x+1      
 
-    print(num_list)        
+    print(num_list)
+
+    y=0
+    num_list2 = []
+
+    while y < len(num_list):
+        tamanho_lista = len(num_list)-1
+        contagem = 1
+        while tamanho_lista >= 0:
+            if y != tamanho_lista:
+                if num_list[y] == num_list[tamanho_lista]:
+                    contagem = contagem + 1
+                    # num_list.remove(num_list[tamanho_lista])
+        
+            tamanho_lista = tamanho_lista-1      
+
+        num_list2.append(num_list[y] + ':' + str(contagem))
+        y = y+1
+    
+    print(sorted(set(num_list2)))
+    
     pass
    
 
-num_list = []
-sair = False
+# num_list = []
+# sair = False
 
-while sair != True: 
-    num = input("Digite um número para sua lista : ") 
-    num_list.append(num)
+# while sair != True: 
+#     num = input("Digite um número para sua lista : ") 
+#     num_list.append(num)
     
-    verifica = input("Deseja sair? S/N")
-    if verifica == 'S':
-        sair = True
+#     verifica = input("Deseja sair? S/N")
+#     if verifica == 'S':
+#         sair = True
 
-conta_primos(num_list)
+# conta_primos(num_list)
 
 
 def eh_armstrong(n):
@@ -177,8 +197,29 @@ def eh_armstrong(n):
     bool
         True se n for um número de Armstrong e False caso contrário.
     """
+    stringn = str(n)
+    tamanho_num = len(stringn)
+    x = 0
+    y = 0
+    cont = 0
+    soma = 0
+    verifica = False
+
+    while x < tamanho_num :
+        cont = cont+1
+        x=x+1
+
+    while y < tamanho_num:
+        soma = soma + ((int(stringn[y])) ** cont)
+        y = y + 1
+
+    if soma == n:
+        verifica = True
+        
+    print(verifica)
     pass
 
+# eh_armstrong(153)
 
 def eh_quase_armstrong(n):
     """Função que verifica se um número é quase de Armstrong
@@ -207,7 +248,31 @@ def eh_quase_armstrong(n):
     bool
         True se n for um número quase de Armstrong e False caso contrário.
     """
+
+    stringn = str(n)
+    tamanho_num = len(stringn)
+    x = 0
+    y = 0
+    cont = 0
+    soma = 0
+    verifica = False
+
+    while x < tamanho_num :
+        cont = cont+1
+        x=x+1
+
+    while y < tamanho_num:
+        soma = soma + ((int(stringn[y])) ** cont)
+        y = y + 1
+
+    if soma+1 == n:
+        verifica = True
+        
+    print(verifica)
+    
     pass
+
+eh_quase_armstrong(74)
 
 
 def lista_armstrong(n):
@@ -228,6 +293,12 @@ def lista_armstrong(n):
         descrição : Uma lista contendo todos os números de Armstrong
             menores que n, em ordem crescente.
     """
+
+
+
+
+
+    
     pass
 
 
