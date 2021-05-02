@@ -38,7 +38,7 @@ def eh_primo(n):
 
     pass
 
-# print(eh_primo(4))
+print(eh_primo(4))
 
 def lista_primos(n):
     """Função que retorna uma lista de primos até n
@@ -82,7 +82,7 @@ def lista_primos(n):
 
 pass
 
-# lista_primos(4)
+lista_primos(4)
 
 def conta_primos(s):
     """Função que conta a quantidade de primos em uma sequẽncia
@@ -136,7 +136,7 @@ def conta_primos(s):
     print(num_list)
 
     y=0
-    num_list2 = []
+  
 
     while y < len(num_list):
         tamanho_lista = len(num_list)-1
@@ -157,18 +157,18 @@ def conta_primos(s):
     pass
    
 
-# num_list = []
-# sair = False
+num_list = []
+sair = False
 
-# while sair != True: 
-#     num = input("Digite um número para sua lista : ") 
-#     num_list.append(num)
+while sair != True: 
+    num = input("Digite um número para sua lista : ") 
+    num_list.append(num)
     
-#     verifica = input("Deseja sair? S/N")
-#     if verifica == 'S':
-#         sair = True
+    verifica = input("Deseja sair? S/N")
+    if verifica == 'S':
+        sair = True
 
-# conta_primos(num_list)
+conta_primos(num_list)
 
 
 def eh_armstrong(n):
@@ -219,7 +219,7 @@ def eh_armstrong(n):
     print(verifica)
     pass
 
-# eh_armstrong(153)
+eh_armstrong(153)
 
 def eh_quase_armstrong(n):
     """Função que verifica se um número é quase de Armstrong
@@ -293,14 +293,38 @@ def lista_armstrong(n):
         descrição : Uma lista contendo todos os números de Armstrong
             menores que n, em ordem crescente.
     """
+    x = 0
+    num_list = []
+    while x < n:
+        stringn = str(x)
+        tamanho_num = len(stringn)
+    
+        z = 0
+        y = 0
+        cont = 0
+        soma = 0
+  
 
+        while z < tamanho_num :
+            cont = cont+1
+            z=z+1
 
+        while y < tamanho_num:
+            soma = soma + ((int(stringn[y])) ** cont)
+            y = y + 1
 
+        if soma == x:
+            num_list.append(x)
+
+        x=x+1 
+
+    print(num_list)
 
 
     
     pass
 
+lista_armstrong(999)
 
 def eh_perfeito(n):
     """Função que verifica se um número é dito perfeito
@@ -329,8 +353,31 @@ def eh_perfeito(n):
     bool
         True se n for um número perfeito e False caso contrário.
     """
+    lista_num = []
+    x = 1
+    y = 0
+    soma = 0
+    verifica = False
+
+    while x < n:
+        if n % x == 0:
+            lista_num.append(x)
+        x = x+1
+
+    tamanho_lista = len(lista_num)
+
+    while y < tamanho_lista:
+        soma = soma + lista_num[y]
+        y = y + 1
+
+    if soma == n:
+        verifica = True
+
+    print(verifica)
+
     pass
 
+eh_perfeito(12)
 
 def lista_perfeitos(n):
     """Função que lista os números ditos perfeitos até n
@@ -351,4 +398,33 @@ def lista_perfeitos(n):
         descrição : Uma lista contendo todos os números perfeitos
             menores que n em ordem crescente.
     """
+    x = 2
+    num_perfeitos = []
+    while x < n:
+        y = 1
+        z=0
+        soma = 0
+        num_list = []
+        while y < x:
+            if x % y == 0:
+                num_list.append(y)
+            y = y + 1
+
+        tamanho_lista = len(num_list)
+
+        while z < tamanho_lista:
+            soma = soma + num_list[z]
+            z = z + 1
+               
+        if soma == x:
+            num_perfeitos.append(x)
+
+        x = x + 1
+
+
+    print(num_perfeitos)
+
+
     pass
+
+lista_perfeitos(999)
