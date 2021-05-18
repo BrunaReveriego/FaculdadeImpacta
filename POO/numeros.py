@@ -1,7 +1,7 @@
 # Programação Orientada a Objetos
 # AC01 ADS-EaD - Números especiais
 #
-# Email Impacta: __________@aluno.faculdadeimpacta.com.br
+# Email Impacta: bruna.reveriego@aluno.faculdadeimpacta.com.br
 
 
 def eh_primo(n):
@@ -32,13 +32,13 @@ def eh_primo(n):
     for i in range (2,n) :
         if n % i == 0:
             return False
-        else: 
-            return True    
+        
+    return True    
 
 
     pass
 
-print(eh_primo(4))
+
 
 def lista_primos(n):
     """Função que retorna uma lista de primos até n
@@ -78,11 +78,11 @@ def lista_primos(n):
                 
         x=x+1        
 
-    print(num_list)    
+    return num_list    
 
 pass
 
-lista_primos(4)
+
 
 def conta_primos(s):
     """Função que conta a quantidade de primos em uma sequẽncia
@@ -118,6 +118,7 @@ def conta_primos(s):
     """
     x=0
     num_list = []
+    num_list2 = {}
 
     while x < len(s):
         if s[x] == 2:
@@ -133,7 +134,7 @@ def conta_primos(s):
           num_list.append(s[x])
         x=x+1      
 
-    print(num_list)
+    # print(num_list)
 
     y=0
   
@@ -149,27 +150,17 @@ def conta_primos(s):
         
             tamanho_lista = tamanho_lista-1      
 
-        num_list2.append(num_list[y] + ':' + str(contagem))
+        num_list2[num_list[y]] = contagem
+       
+        # num_list2.append(num_list[y] + ':' + str(contagem))
         y = y+1
     
-    print(sorted(set(num_list2)))
+    # return (sorted(set(num_list2)))
     
+    return num_list2
+
     pass
    
-
-num_list = []
-sair = False
-
-while sair != True: 
-    num = input("Digite um número para sua lista : ") 
-    num_list.append(num)
-    
-    verifica = input("Deseja sair? S/N")
-    if verifica == 'S':
-        sair = True
-
-conta_primos(num_list)
-
 
 def eh_armstrong(n):
     """Função que verifica se um número é de Armstrong
@@ -216,10 +207,9 @@ def eh_armstrong(n):
     if soma == n:
         verifica = True
         
-    print(verifica)
+    return verifica
     pass
 
-eh_armstrong(153)
 
 def eh_quase_armstrong(n):
     """Função que verifica se um número é quase de Armstrong
@@ -268,11 +258,10 @@ def eh_quase_armstrong(n):
     if soma+1 == n:
         verifica = True
         
-    print(verifica)
+    return verifica
     
     pass
 
-eh_quase_armstrong(74)
 
 
 def lista_armstrong(n):
@@ -318,13 +307,13 @@ def lista_armstrong(n):
 
         x=x+1 
 
-    print(num_list)
+    return num_list
 
 
     
     pass
 
-lista_armstrong(999)
+
 
 def eh_perfeito(n):
     """Função que verifica se um número é dito perfeito
@@ -373,11 +362,10 @@ def eh_perfeito(n):
     if soma == n:
         verifica = True
 
-    print(verifica)
+    return verifica
 
     pass
 
-eh_perfeito(12)
 
 def lista_perfeitos(n):
     """Função que lista os números ditos perfeitos até n
@@ -422,9 +410,8 @@ def lista_perfeitos(n):
         x = x + 1
 
 
-    print(num_perfeitos)
+    return num_perfeitos
 
 
     pass
 
-lista_perfeitos(999)
