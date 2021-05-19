@@ -87,16 +87,28 @@ class Cliente:
         Setter do telefone do cliente, caso não receba um número,
         levanta um TypeError
         """
-        if novo_telefone.isdigit() == True:
-            TypeError: "Telefone inválido."
-            return 
-        else:
+        try:
+            if type(novo_telefone) is int == True:
+                 raise TypeError()
+        except TypeError:
+            print("Telefone no formato inválido")         
+            return
+
+
+        try:
             busca = re.search('[a-zA-Z]',novo_telefone)
-            if  busca:
-                 ValueError: "Telefone inválido."
-                 return 
-            else:
-                self._telefone = novo_telefone
+            validaTel = re.match('\(\d{2}\)\s\d{4,5}\-\d{4}', novo_telefone)
+
+            if busca or not validaTel:
+                raise TypeError()
+                
+        except TypeError:
+            print("Telefone inválido.")
+            return
+
+    
+        self._telefone = novo_telefone  
+               
 
     @property
     def email(self):
@@ -118,8 +130,9 @@ class Cliente:
             if busca == None:
                 raise TypeError()
         except TypeError: 
-            print("e-mail deve conter ao menos uma letra")
-      
+            print("E-mail deve conter ao menos uma letra")
+            return
+
         try:      
             tamanho = len(novo_email)
             verifica = False
@@ -129,9 +142,10 @@ class Cliente:
 
             if verifica == False:
                 raise ValueError()
+         
         except ValueError:
             print("E-mail inválido.")    
-    
+            return
           
         self._email = novo_email
 
@@ -199,8 +213,49 @@ class Conta:
     * Método tirar_extrato da classe Conta:
         * retorna uma lista com as operações (tuplas) executadas na Conta
     """
-    pass
+    def __init__(self, clientes, numero, saldo_inicial):
+        self._clientes = clientes
+        self._numero = numero
+        self._saldo = saldo_inicial
 
+        self._lista_operacoes = ['saldo inicial',self._saldo]
+
+
+    #properties
+
+    @property
+    def clientes(self):
+        """Property de Clientes"""
+        return self._clientes
+    
+    @property
+    def numero(self):
+        """Property de Numero"""
+        return self._numero
+
+    @property
+    def saldo(self):
+        """Property de Saldo"""
+        return self._saldo
+
+    def sacar(self, saque):
+        try:
+            if saque > self._saldo:
+                raise ValueError()
+            else:
+                self._saldo -= saque
+                self._lista_operacoes.append('saque',saque)
+                return
+        except ValueError:
+            print('Valor do saque superior ao saldo')  
+            return
+
+    def depositar(self,deposito):
+        self._saldo += deposito
+        self._lista_operacoes.append('deposito',deposito)
+
+    def tirar_extrato(self):
+        return _lista_operacoes
 
 class Banco:
     """
@@ -258,9 +313,27 @@ class Banco:
         - calcular o número da conta com base na lista de contas
         - instanciar uma conta e adicioná-la à lista de contas
     """
-    pass
-#meu_banco.py
-#Exibindo meu_banco.py.
+    def __init__(self, nome):
+        self._nome = nome
+        self._contas = []
+    
+    @property
+    def nome(self):
+        """Property de Nome"""
+        return self._nome
 
-cliente = Cliente("Bruna","a","a")
+    @property
+    def contas(self):
+        """Property de Contas"""
+        return self._contas
 
+    def abrir_conta(self,clientes,saldo_inicial):
+        try:
+            if saldo_inicial < 0:
+                raise ValueError()
+        except ValueError:
+            print("Saldo inicial não pode ser negativo.")
+            return
+
+        numero_conta = len(self._contas) + 1
+        self._contas.append(Conta(clientes,numero_conta,saldo_inicial))        
