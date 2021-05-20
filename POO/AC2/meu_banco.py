@@ -1,7 +1,7 @@
 # Programação Orientada a Objetos
 # AC02 ADS-EaD - Criando classes
 #
-# Email Impacta: ______________@aluno.faculdadeimpacta.com.br
+# Email Impacta: bruna.reveriego@aluno.faculdadeimpacta.com.br
                                                                                                                                                     
 import re
 class Cliente:
@@ -87,26 +87,15 @@ class Cliente:
         Setter do telefone do cliente, caso não receba um número,
         levanta um TypeError
         """
-        try:
-            if type(novo_telefone) is int == True:
-                 raise TypeError()
-        except TypeError:
-            print("Telefone no formato inválido")         
-            return
+        if not isinstance(novo_telefone, str):
+            raise TypeError 
 
-
-        try:
-            busca = re.search('[a-zA-Z]',novo_telefone)
-            validaTel = re.match('\(\d{2}\)\s\d{4,5}\-\d{4}', novo_telefone)
-
-            if busca or not validaTel:
-                raise TypeError()
+        
+        for x in novo_telefone:
+            if x not in ("0123456789-() "):
+                raise ValueError
                 
-        except TypeError:
-            print("Telefone inválido.")
-            return
-
-    
+        
         self._telefone = novo_telefone  
                
 
@@ -124,29 +113,20 @@ class Cliente:
         (considere o email válido se ele contiver exatamente
         1 símbolo de arroba - @)
         """
-        try:
-            busca = re.search('[a-zA-Z]',novo_email)
-    
-            if busca == None:
-                raise TypeError()
-        except TypeError: 
-            print("E-mail deve conter ao menos uma letra")
-            return
+        if not isinstance(novo_email, str):
+            raise TypeError
 
-        try:      
-            tamanho = len(novo_email)
-            verifica = False
-            for x in range(tamanho):
-                if novo_email[x] == '@':
-                    verifica = True
+      
+        tamanho = len(novo_email)
+        verifica = False
+        for x in range(tamanho):
+            if novo_email[x] == '@':
+                verifica = True
 
-            if verifica == False:
-                raise ValueError()
+        if verifica == False:
+            raise ValueError
          
-        except ValueError:
-            print("E-mail inválido.")    
-            return
-          
+        
         self._email = novo_email
 
 
@@ -218,7 +198,7 @@ class Conta:
         self._numero = numero
         self._saldo = saldo_inicial
 
-        self._lista_operacoes = ['saldo inicial',self._saldo]
+        self._lista_operacoes = [("saldo inicial",saldo_inicial)]
 
 
     #properties
@@ -239,23 +219,19 @@ class Conta:
         return self._saldo
 
     def sacar(self, saque):
-        try:
-            if saque > self._saldo:
-                raise ValueError()
-            else:
-                self._saldo -= saque
-                self._lista_operacoes.append('saque',saque)
-                return
-        except ValueError:
-            print('Valor do saque superior ao saldo')  
-            return
+        if saque > self._saldo:
+            raise ValueError
+        else:
+            self._saldo -= saque
+            self._lista_operacoes.append(("saque",saque))
 
+        
     def depositar(self,deposito):
         self._saldo += deposito
-        self._lista_operacoes.append('deposito',deposito)
+        self._lista_operacoes.append(("deposito",deposito))
 
     def tirar_extrato(self):
-        return _lista_operacoes
+        return self._lista_operacoes
 
 class Banco:
     """
@@ -315,7 +291,7 @@ class Banco:
     """
     def __init__(self, nome):
         self._nome = nome
-        self._contas = []
+        self._contas = list()
     
     @property
     def nome(self):
@@ -328,12 +304,11 @@ class Banco:
         return self._contas
 
     def abrir_conta(self,clientes,saldo_inicial):
-        try:
-            if saldo_inicial < 0:
-                raise ValueError()
-        except ValueError:
-            print("Saldo inicial não pode ser negativo.")
-            return
-
+        if saldo_inicial < 0:
+            raise ValueError
+      
         numero_conta = len(self._contas) + 1
         self._contas.append(Conta(clientes,numero_conta,saldo_inicial))        
+
+
+
