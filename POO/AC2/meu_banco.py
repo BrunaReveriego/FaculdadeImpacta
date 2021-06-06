@@ -4,7 +4,7 @@
 # Email Impacta: bruna.reveriego@aluno.faculdadeimpacta.com.br
                                                                                                                                                     
 import re
-class Cliente:
+class Cliente:45                        
     """
     Classe que modela os clientes do banco.
 
