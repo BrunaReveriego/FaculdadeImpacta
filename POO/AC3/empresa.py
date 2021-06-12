@@ -27,7 +27,6 @@ class Pessoa:
     --> O método aniversário não recebe nenhum argumento e incrementa
         o valor da idade em +1.
     """
-    pass
 
     def __init__(self, nome, idade ):
 
@@ -107,17 +106,15 @@ class Funcionario(Pessoa):
 
         O valor de carga_horaria é referente ao número de horas trabalhadas por semana
         """
-        pass
-        super()._init_(self,nome,idade):
-            self._email = email
-            self._carga_horaria = carga_horaria
-
+        super().__init__(nome,idade)
+        self.email = email
+        self.carga_horaria = carga_horaria
+   
     @property
     def email(self):
         """
         Retorna email do funcionário
         """
-        pass
         return self._email
 
     @email.setter
@@ -128,16 +125,15 @@ class Funcionario(Pessoa):
         - Deve conter apenas letras, números, pontos e
           exatamente 1 símbolo @, senão levanta um ValueError.
         """
-        pass
-        
         if not isinstance(novo_email,str):
             raise TypeError
 
-        verifica = re.match("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$",novo_email)
+        verifica = re.match("^[a-zA-Z0-9.]*@[a-zA-Z0-9.]*$",novo_email)
 
         if not verifica:
             raise ValueError
 
+        self._email = novo_email
 
 
     @property
@@ -173,8 +169,17 @@ class Funcionario(Pessoa):
         Aplica um aumento de 5% no valor da hora trabalhada para o funcionário
         - Este método não possui retorno;
         """
-        pass
+   
+        aumento = self._salario_hora * 5 / 100
+        self._salario_hora += aumento
 
+    @property
+    def salario_hora(self):
+        raise NotImplementedError
+
+    @salario_hora.setter
+    def salario_hora(self):
+        raise NotImplementedError
 
 """
 DICAS:
@@ -213,8 +218,24 @@ class Programador(Funcionario):
         * sálario base (por hora);
         * o mês possui 4.5 semanas para efeitos desse cálculo.
     """
-    pass
+    def __init__(self,nome,idade,email,carga_horaria):
+        super().__init__(nome,idade,email,carga_horaria)
+        self._salario_hora = 35
+        self.carga_horaria = carga_horaria
 
+    @property
+    def carga_horaria(self):
+        return self._carga_horaria
+
+    @carga_horaria.setter
+    def carga_horaria(self,nova_carga_horaria):
+        if nova_carga_horaria < 20 or nova_carga_horaria > 40:
+            raise ValueError
+        self._carga_horaria = nova_carga_horaria
+
+   
+    def calcula_salario(self):         
+        return self._salario_hora * self.carga_horaria * 4.5
 
 class Estagiario(Funcionario):
     """
@@ -230,7 +251,27 @@ class Estagiario(Funcionario):
         * o mês possui 4.5 semanas para efeitos desse cálculo;
         * auxílio alimentação mensal fixo;
     """
-    pass
+    def __init__(self,nome,idade,email,carga_horaria):
+        super().__init__(nome,idade,email,carga_horaria)
+        self._salario_hora = 15.5
+        self._aux_alimentacao = 250
+        self.carga_horaria = carga_horaria
+
+
+    @property
+    def carga_horaria(self):
+        return self._carga_horaria
+
+    @carga_horaria.setter
+    def carga_horaria(self,nova_carga_horaria):
+        if nova_carga_horaria < 16 or nova_carga_horaria > 30:
+            raise ValueError
+
+        self._carga_horaria = nova_carga_horaria
+
+    def calcula_salario(self):         
+        return (self._salario_hora * self.carga_horaria * 4.5 + self._aux_alimentacao)
+        
 
 
 class Vendedor(Funcionario):
@@ -262,13 +303,34 @@ class Vendedor(Funcionario):
         * auxílio alimentação mensal fixo;
         * auxilio transporte mensal variável, em função do número de visitas;
     """
+    def __init__(self,nome,idade,email,carga_horaria):
+        super().__init__(nome,idade,email,carga_horaria)
+        self._salario_hora = 30
+        self._aux_alimentacao = 350
+        self._aux_transporte = 30
+        self.carga_horaria = carga_horaria
+        self.zerar_visitas()
+
+    @property
+    def carga_horaria(self):
+        return self._carga_horaria
+
+    @carga_horaria.setter
+    def carga_horaria(self,nova_carga_horaria):
+        if nova_carga_horaria < 15 or nova_carga_horaria > 45:
+            raise ValueError
+        self._carga_horaria = nova_carga_horaria
+
+    def calcula_salario(self):
+        return self._salario_hora * self.carga_horaria * 4.5 + self._aux_alimentacao + self.visitas * self._aux_transporte    
+
 
     @property
     def visitas(self):
         """
         Retorna o número de visitas realizadas pelo vendedor até o momento
         """
-        pass
+        return self._visitas
 
     def realizar_visita(self, n_visitas):
         """
@@ -279,7 +341,12 @@ class Vendedor(Funcionario):
 
         - Este método não possui retorno;
         """
-        pass
+        if not isinstance(n_visitas,int):
+            raise TypeError
+        if n_visitas < 0 or n_visitas > 10:
+            raise ValueError
+
+        self._visitas = self._visitas + n_visitas
 
     def zerar_visitas(self):
         """
@@ -287,7 +354,7 @@ class Vendedor(Funcionario):
         de modo a começar a contagem para o mês seguinte.
         - Este método não possui retorno;
         """
-        pass
+        self._visitas = 0
 
 
 class EmpresaCreationError(Exception):
@@ -331,13 +398,59 @@ class Empresa:
         público `contrata` e tratando para TypeError em um bloco try-except, e levantando
         o erro adequado.
         """
+        self.nome = nome
+        self.cnpj = cnpj
+        self.area_atuacao = area_atuacao
+        self._equipe = []
+        
+        try:
+            for f in equipe:
+                self.contrata(f)
+        except TypeError:
+            raise EmpresaCreationError
+
+
+    @property
+    def nome(self):
+        return self._nome
+
+    @nome.setter
+    def nome(self,novo_nome):
+        if not isinstance(novo_nome,str):
+            raise EmpresaCreationError
+        
+        self._nome = novo_nome
+
+    @property
+    def cnpj(self):
+        return self._cnpj
+
+    @cnpj.setter
+    def cnpj(self,novo_cnpj):
+        if not isinstance(novo_cnpj,str):
+            raise EmpresaCreationError
+        
+        self._cnpj = novo_cnpj
+
+    @property
+    def area_atuacao(self):
+        return self._area_atuacao
+
+    @area_atuacao.setter
+    def area_atuacao(self,novo_area_atuacao):
+        if not isinstance(novo_area_atuacao,str):
+            raise EmpresaCreationError
+        
+        self._area_atuacao = novo_area_atuacao    
+
+
 
     @property
     def equipe(self):
         """
         Retorna a lista com todos os funcionarios da empresa
         """
-        pass
+        return self._equipe
 
     def contrata(self, novo_funcionario):
         """
@@ -352,7 +465,11 @@ class Empresa:
 
         - Este método não possui retorno;
         """
-        pass
+        if not isinstance(novo_funcionario,Funcionario):
+            raise TypeError
+
+        self._equipe.append(novo_funcionario)
+
 
     def folha_pagamento(self):
         """
@@ -362,7 +479,13 @@ class Empresa:
         DICA: Itere sobre a lista de funcionários, fazendo cada objeto do tipo
         Funcionário calcular seu próprio salário, acumule e retorne o resultado.
         """
-        pass
+        total_salario = 0
+
+        for f in self.equipe:
+            total_salario = total_salario + f.calcula_salario()
+
+        return total_salario
+
 
     def dissidio_anual(self):
         """
@@ -373,7 +496,8 @@ class Empresa:
         DICA: idem ao método de folha de pagamento, percorra a lista de funcionários e
         faça cada objeto funcionário aumentar o próprio salário base por hora.
         """
-        pass
+        for f in self.equipe:
+            f.aumenta_salario()
 
     def listar_visitas(self):
         """
@@ -391,7 +515,10 @@ class Empresa:
         o funcionário é um vendedor, em caso positivo, adicione as informações pedidas
         ao dicionário, e por fim retorne esse dicionário (não precisa guardar em um atributo).
         """
-        pass
+        for f in self.equipe:
+            if isinstance(f,Vendedor):
+                return {f.email : f.visitas}
+
 
     def zerar_visitas_vendedores(self):
         """
@@ -399,3 +526,6 @@ class Empresa:
         para cada vendedor, chame o método de zerar visitas do vendedor.
         - Este método não possui retorno;
         """
+        for f in self.equipe:
+            if isinstance(f,Vendedor):
+                f.zerar_visitas()
